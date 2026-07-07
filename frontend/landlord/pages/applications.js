@@ -19,6 +19,7 @@ RE.landlordPages.applications = async function (app, params) {
         <p><strong>Phone:</strong> ${tenant ? RE.utils.escapeHtml(tenant.phone) : '—'}</p>
         <p><strong>Message:</strong> ${a.message ? RE.utils.escapeHtml(a.message) : '—'}</p>
         <p><strong>Submitted:</strong> ${RE.utils.formatDateTime(a.createdAt)}</p>
+        <div id="tenant-ratings" style="margin-top:1rem"></div>
         ${a.status === 'APPROVED' && prop?.status === 'RENTED' ? '<p class="meta" style="margin-top:0.5rem">This property is currently rented. Mark it available when the tenancy ends to complete the rental and leave a review.</p>' : ''}
         <div class="actions" style="margin-top:1rem">
           ${a.status === 'PENDING' ? `
@@ -28,6 +29,15 @@ RE.landlordPages.applications = async function (app, params) {
           ${a.status === 'APPROVED' && prop?.status === 'RENTED' ? `<button class="btn btn-primary" id="mark-available">Mark as Available</button>` : ''}
         </div>
       </div></div>`;
+
+    if (tenant?.id) {
+      RE.ratings.mount(app.querySelector('#tenant-ratings'), {
+        userId: tenant.id,
+        targetType: 'TENANT',
+        title: 'Tenant Ratings',
+        emptyText: 'No tenant ratings yet.',
+      });
+    }
 
     if (a.status === 'COMPLETED' && prop?.id) {
       const reviewWrap = document.createElement('div');

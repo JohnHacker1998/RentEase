@@ -13,6 +13,11 @@ RE.reviewSection = (function () {
     return targetType === 'LANDLORD' ? 'TENANT' : 'LANDLORD';
   }
 
+  function personLabel(person, fallback) {
+    if (person) return RE.utils.fullName(person);
+    return fallback;
+  }
+
   async function mount(container, opts) {
     const propertyId = opts?.propertyId;
     const targetType = opts?.targetType;
@@ -65,6 +70,7 @@ RE.reviewSection = (function () {
 
     if (theirReview) {
       theirEl.innerHTML = `
+        <p class="rating-item-author">From: <strong>${escape(personLabel(theirReview.reviewer, 'Anonymous reviewer'))}</strong></p>
         <p><span class="rating">${RE.ui.stars(theirReview.rating)}</span> ${RE.utils.badge(theirReview.targetType)}</p>
         ${theirReview.comment ? `<p>${escape(theirReview.comment)}</p>` : '<p class="meta">No comment.</p>'}
         <p class="meta">${RE.utils.formatDateTime(theirReview.createdAt)}</p>
@@ -75,6 +81,7 @@ RE.reviewSection = (function () {
 
     if (myReview) {
       myEl.innerHTML = `
+        <p class="rating-item-author">To: <strong>${escape(personLabel(myReview.reviewee, 'Unknown'))}</strong></p>
         <p><span class="rating">${RE.ui.stars(myReview.rating)}</span> ${RE.utils.badge(myReview.targetType)}</p>
         ${myReview.comment ? `<p>${escape(myReview.comment)}</p>` : '<p class="meta">No comment.</p>'}
         <p class="meta">You already submitted this review.</p>
