@@ -30,5 +30,6 @@ npx serve frontend -p 8080   # http://localhost:8080
 
 ## Documentation
 
+- [**Developer Guide**](DEVELOPER_GUIDE.md) — full system walkthrough for junior developers (architecture, workflows, demo script)
 - [Frontend docs](frontend/README.md) — portals, routing, setup
 - [Backend API docs](backend/README.md) — setup, endpoints, migrations, Swagger

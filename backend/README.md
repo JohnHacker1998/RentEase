@@ -31,6 +31,7 @@ backend/
 │   ├── schemas/            # Zod schemas (validation + OpenAPI)
 │   ├── services/           # Business logic
 │   └── utils/              # AppError, asyncHandler, pagination
+├── schema/                 # Portable DDL and ER diagram (reference)
 ├── migrations/             # Sequelize migrations
 ├── seeders/                # Sequelize seeders
 └── uploads/                # Uploaded files (profiles, properties, etc.)
@@ -95,6 +96,15 @@ All backend commands run from the `backend/` directory:
    Server runs at `http://localhost:3000`.
 
 ## Database Overview
+
+Schema reference files (for documentation, DBA review, and manual provisioning):
+
+| File | Description |
+|------|-------------|
+| [`schema/schema.sql`](schema/schema.sql) | Portable PostgreSQL DDL for the full schema |
+| [`schema/ER_DIAGRAM.md`](schema/ER_DIAGRAM.md) | Mermaid entity-relationship diagram |
+
+**Migrations remain the runtime source of truth** for schema evolution. Use `npm run db:migrate` for normal setup; use `schema.sql` when you need a standalone SQL script.
 
 | Table | Purpose |
 |-------|---------|

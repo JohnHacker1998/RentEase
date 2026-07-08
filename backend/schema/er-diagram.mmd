@@ -1,0 +1,128 @@
+erDiagram
+    users ||--o| landlord_verifications : "user_id"
+    users ||--o{ landlord_verifications : "verified_by"
+    users ||--o{ properties : "landlord_id"
+    users ||--o{ applications : "tenant_id"
+    users ||--o{ reviews : "reviewer_id"
+    users ||--o{ reviews : "reviewee_id"
+    users ||--o{ conversations : "tenant_id"
+    users ||--o{ conversations : "landlord_id"
+    users ||--o{ messages : "sender_id"
+
+    properties ||--o{ property_images : "property_id"
+    properties ||--o{ property_amenities : "property_id"
+    amenities ||--o{ property_amenities : "amenity_id"
+    properties ||--o{ applications : "property_id"
+    properties ||--o{ reviews : "property_id"
+    properties ||--o{ conversations : "property_id"
+
+    conversations ||--o{ messages : "conversation_id"
+
+    users {
+        uuid id PK
+        varchar first_name
+        varchar last_name
+        varchar email UK
+        varchar password
+        varchar phone
+        enum role
+        varchar profile_image
+        boolean is_active
+        timestamptz created_at
+        timestamptz updated_at
+    }
+
+    landlord_verifications {
+        uuid id PK
+        uuid user_id FK_UK
+        enum status
+        varchar verification_document
+        text rejection_reason
+        uuid verified_by FK
+        timestamptz verified_at
+        timestamptz created_at
+        timestamptz updated_at
+    }
+
+    properties {
+        uuid id PK
+        uuid landlord_id FK
+        varchar title
+        text description
+        varchar address
+        varchar city
+        varchar state
+        decimal price
+        enum property_type
+        int bedrooms
+        int bathrooms
+        int area_sqft
+        enum status
+        boolean is_approved
+        text rejection_reason
+        timestamptz created_at
+        timestamptz updated_at
+    }
+
+    property_images {
+        uuid id PK
+        uuid property_id FK
+        varchar image_url
+        boolean is_cover
+        int display_order
+        timestamptz created_at
+    }
+
+    amenities {
+        uuid id PK
+        varchar name UK
+        timestamptz created_at
+        timestamptz updated_at
+    }
+
+    property_amenities {
+        uuid id PK
+        uuid property_id FK
+        uuid amenity_id FK
+    }
+
+    applications {
+        uuid id PK
+        uuid property_id FK
+        uuid tenant_id FK
+        text message
+        enum status
+        timestamptz created_at
+        timestamptz updated_at
+    }
+
+    reviews {
+        uuid id PK
+        uuid reviewer_id FK
+        uuid reviewee_id FK
+        uuid property_id FK
+        enum target_type
+        int rating
+        text comment
+        timestamptz created_at
+        timestamptz updated_at
+    }
+
+    conversations {
+        uuid id PK
+        uuid property_id FK
+        uuid tenant_id FK
+        uuid landlord_id FK
+        timestamptz last_message_at
+        timestamptz created_at
+        timestamptz updated_at
+    }
+
+    messages {
+        uuid id PK
+        uuid conversation_id FK
+        uuid sender_id FK
+        text message
+        boolean is_read
+        timestamptz created_at
+    }

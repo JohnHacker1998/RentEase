@@ -1,0 +1,19 @@
+erDiagram
+    users ||--o| landlord_verifications : "user_id"
+    users ||--o{ landlord_verifications : "verified_by"
+    users ||--o{ properties : "landlord_id"
+    users ||--o{ applications : "tenant_id"
+    users ||--o{ reviews : "reviewer_id"
+    users ||--o{ reviews : "reviewee_id"
+    users ||--o{ conversations : "tenant_id"
+    users ||--o{ conversations : "landlord_id"
+    users ||--o{ messages : "sender_id"
+
+    properties ||--o{ property_images : "property_id"
+    properties ||--o{ property_amenities : "property_id"
+    amenities ||--o{ property_amenities : "amenity_id"
+    properties ||--o{ applications : "property_id"
+    properties ||--o{ reviews : "property_id"
+    properties ||--o{ conversations : "property_id"
+
+    conversations ||--o{ messages : "conversation_id"
